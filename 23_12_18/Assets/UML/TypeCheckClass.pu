@@ -1,0 +1,81 @@
+@startuml タイピングの入力を受け取り、チェックするクラス群
+    class Question<<ScriptableObject>>{ 
+        + Char[] spell {get; private set;}
+        + E_voice voiceFile {get; private set;}
+        + String question {get; private set;}
+        + float time {get; private set;}
+    }
+
+    enum E_voice{
+        FileName ...
+    }
+
+    enum E_FistQuestion{
+        ObjectName ...
+    }
+
+    enum E_LatterQuestion{
+        ObjectName ...
+    }
+
+    class Questioner{
+        QuestionSet currentQuestion
+        - int spellCount
+        - E_QuestionState state
+        - int QuestionCount
+        + void checkspell(char c)
+        + SbscriveQuestionfinished(Action action)
+    }
+
+
+    class QuestionSet{
+        + Dictionary<E_QuestionState,Question> QuestionSet
+    }
+
+
+    enum E_QuestionState{
+        FIRST
+        LATTER
+    }
+
+
+    class QuestionFactory{
+        void getStartQestion()
+        void getRandomQuestion()
+        void getEndQestion()
+    }
+
+    interface  I_spellCheckable{
+        + void checkspell(char c)
+    }
+
+    class KeyInputGeter{
+        - Dictionary<KeyCode,Char> KeyMap
+        + Update()
+    }
+
+    interface I_FlameUpdatable{
+        + Update()
+    }
+
+    class GameManager{
+        + EndQestion()
+    }
+
+    class SceneObjectUpdater {
+
+    }
+
+    GameManager --> Questioner : Observe
+    Questioner ..|> I_spellCheckable
+    Question --o QuestionSet
+    Questioner --> QuestionFactory
+    QuestionSet --* Questioner
+    KeyInputGeter *--> I_spellCheckable
+
+    SceneObjectUpdater --> I_FlameUpdatable
+    KeyInputGeter ..|> I_FlameUpdatable
+
+    
+
+@enduml
