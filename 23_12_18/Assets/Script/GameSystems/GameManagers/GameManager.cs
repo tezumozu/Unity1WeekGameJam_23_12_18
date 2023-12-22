@@ -25,5 +25,4 @@ public abstract class  GameManager : I_SceneLoadAlertable , I_GameModeChangeAler
             action(nextMode);
         });
     }
-    
 }

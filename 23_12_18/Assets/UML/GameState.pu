@@ -1,0 +1,20 @@
+@startuml
+
+state TitleScene{
+
+}
+
+state TypingScene{
+    state Opning
+    state Question
+    state Ending
+    state Result
+}
+
+TitleScene --> Opning : PlressAnyKey
+Opning --> Question : OpningEffectFinished
+Question --> Ending : QuestionAllClear
+Ending -left-> Result : EnsingFinished
+Result -left-> TitleScene : PlessAnyKey
+    
+@enduml

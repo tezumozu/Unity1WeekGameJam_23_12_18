@@ -50,6 +50,7 @@ public class GameLoopManager : MonoBehaviour {
                 if(initAsync.GetAwaiter().IsCompleted){
                     //初期化が終了したら切り替え
                     currentState = E_LoopState.Update;
+                    UpdateManager.GameStart();
                 }
 
                 break;

@@ -1,0 +1,43 @@
+@startuml メインのクラス設計
+    class GameManager {
+
+    }
+
+    class Questioner{
+
+    }
+
+    class KeyTypeInputer{
+
+    }
+
+    class Timer <<Mono>>{
+
+    }
+
+    class OpningManager{
+
+    }
+
+    class EndingManager{
+
+    }
+
+    class AnswerEffect{
+
+    }
+
+    class ResultManager{
+
+    }
+    
+    GameManager -right-> EndingManager : Observe
+    GameManager -left-> ResultManager: Observe
+    GameManager -down-> Questioner : Observe
+    GameManager -up-> OpningManager : Observe
+    Questioner -left-> KeyTypeInputer : Observe
+    Questioner -down-> Timer
+    Questioner -right-> AnswerEffect : Observe
+
+
+@enduml

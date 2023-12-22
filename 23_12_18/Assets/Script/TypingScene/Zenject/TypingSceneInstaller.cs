@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using UnityEngine;
 using Zenject;
 
@@ -9,7 +11,6 @@ public class TypingSceneInstaller : MonoInstaller{
         var sceneObjecdtUpdater = new TypingSceneObjectUpdater();
         var gameManager = new TypingSceneGameManager();
         var inputManager = new InputManager();
-
 
         //SceneObjectUpdatable
         Container
@@ -45,5 +46,6 @@ public class TypingSceneInstaller : MonoInstaller{
             .To<InputManager>()
             .FromInstance(inputManager)
             .AsTransient();
+        
     }
 }

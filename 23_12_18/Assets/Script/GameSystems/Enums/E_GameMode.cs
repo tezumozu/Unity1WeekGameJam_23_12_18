@@ -4,5 +4,10 @@ using UnityEngine;
 
 
 public enum E_GameMode{
-  TitleScene
+    TYPING_OPNING,
+    TYPING_QUESTION,
+    TYPING_ENDING,
+    TYPING_RESULT,
+
+    TITLE
 }

@@ -19,9 +19,9 @@ public class RandQuestionSet : QuestionSet{
 
         //enumからstringに変化
         string firstName = firstType.ToString();
-        string latterName = latterType.ToString();;
+        string latterName = latterType.ToString();
 
         Questions[E_QuestionState.FIRST] = Resources.Load<Question> ("Questions/FirstQuestion/" + firstName);
-        Questions[E_QuestionState.FIRST] = Resources.Load<Question> ("Questions/LatterQuestion/" + latterName);
+        Questions[E_QuestionState.LATTER] = Resources.Load<Question> ("Questions/LatterQuestion/" + latterName);
     }
 }

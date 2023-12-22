@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum E_SceneName{
-  TitleScene,
-  TypingScene
+public enum E_Evaluation {
+    GREAT,
+    GOOD,
+    NICE,
+    BAD
 }

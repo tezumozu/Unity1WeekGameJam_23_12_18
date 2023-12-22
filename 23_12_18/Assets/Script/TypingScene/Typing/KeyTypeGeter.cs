@@ -1,8 +1,10 @@
 using System;
+using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Cysharp.Threading.Tasks;
 using Zenject;
 
 
@@ -59,20 +61,25 @@ public class KeyTypeGeter {
         keyMap[KeyCode.Minus] = '-';
     }
 
-    public void UpdateObject(){
+    public UniTask UpdateObject(){
+
+        List<KeyCode> downKeyList = new List<KeyCode>();
+
         if (Input.anyKeyDown){
             foreach(KeyCode code in Enum.GetValues(typeof(KeyCode))) { // 検索
-                checkInput(code);
+                if(Input.GetKeyDown(code)){
+                    downKeyList.Add(code);
+                }
             }
         }
-    }
 
-    private void checkInput(KeyCode code){
-        // 入力されたキーの名前と一致した場合
-        if (Input.GetKeyDown(code)) {
-            Debug.Log(code);
-            //入力を通知
-            questioner.checkSpel(keyMap[code]);
-        }
+        return UniTask.RunOnThreadPool(()=>{
+
+            //押されたキーを判定
+            foreach(var code in downKeyList){
+                questioner.checkSpel(keyMap[code]);
+            }
+
+        });
     }
 }
