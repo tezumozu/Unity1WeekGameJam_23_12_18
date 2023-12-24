@@ -6,9 +6,12 @@ using UniRx;
 
 public class OpningManager {
     public Subject<Unit> FinishOpningSubject;
-    private Timer timer;
 
     public OpningManager(){
+        FinishOpningSubject = new Subject<Unit>();
+    }
+
+    public void InitObject(){
     }
 
     public void StartOpening(){
@@ -16,6 +19,8 @@ public class OpningManager {
         Debug.Log("めたん「 ずんだもんのみなさん、おねがいします 」");
 
         Debug.Log("ずんだもんたち「 はぁい！ 」");
+
+        FinishOpningSubject.OnNext(Unit.Default);
     }
 
 }

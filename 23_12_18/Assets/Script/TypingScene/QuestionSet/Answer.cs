@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Answer : MonoBehaviour{
+public class Answer{
     public bool IsClear;
     public Question Question;
     public float Time;

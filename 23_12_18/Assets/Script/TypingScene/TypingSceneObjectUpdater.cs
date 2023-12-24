@@ -13,8 +13,8 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
     private EndingManager endingManager;
     private ResultManager resultManager;
 
-    private KeyTypeGeter keyTypeGeter;
-    private AnswerEffectManager AnswerEffectManager;
+    private KeyTypeGetter keyTypeGetter;
+    private AnswerEffectManager answerEffectManager;
     private Timer timer;
 
     private SynchronizationContext context;
@@ -29,12 +29,14 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
         bool loadAcynk = false;
 
         //メインスレッドで実行
-        context.Post(() => {
+        context.Post( _ => {
+
             timer = GameObject.Find("Timer").GetComponent<Timer>();
-            effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
+            answerEffectManager = GameObject.Find("AnswerEffectManager").GetComponent<AnswerEffectManager>();
 
             loadAcynk = true;
-        });
+
+        } , null );
 
         //ロード待ち
         while(!loadAcynk){
@@ -48,40 +50,43 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
         endingManager = new EndingManager();
         questioner = new Questioner();
 
-        keyTypeGeter = new KeyTypeGeter();
-        AnswerEffectManager = new AnswerEffectManager();
-        
+        keyTypeGetter = new KeyTypeGetter();
+
+        var scoerManager = new ScoerManager();
+
 
         //各マネージャの初期化
-        gameManager.InitObject( questioner , opningManager , endingManager , resultManager);
+        gameManager.InitObject( opningManager , questioner , endingManager , resultManager);
 
         opningManager.InitObject();
-        resultManager.InitObject();
+        resultManager.InitObject(scoerManager);
         endingManager.InitObject();
-        questioner.InitObject(keyTypeGeter , timer , AnswerEffectManager , context);
+        questioner.InitObject(answerEffectManager,keyTypeGetter,scoerManager,timer);
 
-        keyTypeGeter.InitObject();
-        AnswerEffectManager.InitObject();
+        keyTypeGetter.InitObject();
+        answerEffectManager.InitObject();
+        scoerManager.InitObject();
 
 
         //シーンロード時にローディング画面を表示
-        gameManager.ObserveSceneLoadAlert(()=>{
+        gameManager.ObserveSceneLoadAlert( _ => {
             //ロード画面表示
+            Debug.Log("Now Loading");
         });
         
     }
 
-    public override async void UpdateObject(){
+    public override void UpdateObject(){
 
         switch (gameManager.currentGameMode){
-            case E_GameMode.TYPING_PLAY_INGAME:
+            case E_GameMode.TYPING_QUESTION:
                 //キー入力を受け取る
-                keyTypeGeter.UpdateObject();
+                keyTypeGetter.GetKeyType();
             break;
             
-            case E_GameMode.TYPING_Result:
+            case E_GameMode.TYPING_RESULT:
                 //入力を受け取る
-                inputManager.UpdateManager();
+                //inputManager.UpdateInput();
             break;
         }
     }

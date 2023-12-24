@@ -4,25 +4,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using Zenject;
-
+using UniRx;
 
 
 //キーボードの入力を取得し、I_TypeCheckableに渡す
-public class KeyTypeGeter {
-    private Dictionary <KeyCode,Char> keyMap; 
+public class KeyTypeGetter {
+    private Dictionary <KeyCode,char> keyMap; 
 
-    private I_SpelCheckable questioner;
+    public Subject<char> KeyTypeSubject;
 
 
-    public KeyTypeGeter (I_SpelCheckable questioner){
-        this.questioner = questioner;
+    public KeyTypeGetter (){
+        KeyTypeSubject = new Subject<char>();
     }
 
 
     public void InitObject(){
-        keyMap = new Dictionary<KeyCode, Char>();
+        keyMap = new Dictionary<KeyCode, char>();
         var keyList = Enum.GetValues(typeof(KeyCode));
 
         //一度初期化
@@ -61,25 +60,17 @@ public class KeyTypeGeter {
         keyMap[KeyCode.Minus] = '-';
     }
 
-    public UniTask UpdateObject(){
+    public void GetKeyType(){
 
         List<KeyCode> downKeyList = new List<KeyCode>();
 
         if (Input.anyKeyDown){
-            foreach(KeyCode code in Enum.GetValues(typeof(KeyCode))) { // 検索
+            foreach(KeyCode code in Enum.GetValues(typeof(KeyCode))) {
                 if(Input.GetKeyDown(code)){
-                    downKeyList.Add(code);
+                    KeyTypeSubject.OnNext(keyMap[code]);
                 }
             }
         }
 
-        return UniTask.RunOnThreadPool(()=>{
-
-            //押されたキーを判定
-            foreach(var code in downKeyList){
-                questioner.checkSpel(keyMap[code]);
-            }
-
-        });
     }
 }

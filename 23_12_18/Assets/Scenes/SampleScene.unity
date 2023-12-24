@@ -224,6 +224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 912895722}
+  - component: {fileID: 912895723}
   m_Layer: 0
   m_Name: Timer
   m_TagString: Untagged
@@ -246,6 +247,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &912895723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912895721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2caec960cf3df3048ba8c163659d9322, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &985662350
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,8 +268,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 985662351}
+  - component: {fileID: 985662352}
   m_Layer: 0
-  m_Name: EffectManager
+  m_Name: AnswerEffectManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -277,6 +291,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &985662352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985662350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3daf72f29ec92a8438ed19132f7fb592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1248347743
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,6 +313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1248347744}
   - component: {fileID: 1248347745}
+  - component: {fileID: 1248347746}
   m_Layer: 0
   m_Name: GameLoopManager
   m_TagString: Untagged
@@ -321,6 +348,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26edc4e245835384fbb15b72ecbea429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1248347746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248347743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de62cc3ba89586458be701d9db10100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  list:
+  - Scoer: 1000
+    Evaluation: 0
+  - Scoer: 500
+    Evaluation: 1
+  - Scoer: 300
+    Evaluation: 2
+  - Scoer: 0
+    Evaluation: 3
 --- !u!1 &1771897091
 GameObject:
   m_ObjectHideFlags: 0

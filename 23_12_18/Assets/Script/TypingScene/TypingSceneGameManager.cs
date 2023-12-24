@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UniRx;
+
 public class TypingSceneGameManager : GameManager{
     public E_GameMode currentGameMode {get; private set;}
 
@@ -10,25 +12,28 @@ public class TypingSceneGameManager : GameManager{
 
 
         //オープニングの終了待ち
-        opningManager.FinishOpningSubject.Subscribe(()=>{
+        opningManager.FinishOpningSubject.Subscribe( _ => {
+            currentGameMode = E_GameMode.TYPING_QUESTION;
             questioner.StartQuestion();
         });
 
 
         //クイズの終了待ち
-        questioner.AllFinishQuestionSubject.Subscribe(()=>{
+        questioner.AllFinishQuestionSubject.Subscribe( _ =>{
+            currentGameMode = E_GameMode.TYPING_ENDING;
             endingManager.StartEnding();
         });
 
 
         //エンディングの終了待ち
-        endingManager.AllFinishQuestionSubject.Subscribe(()=>{
+        endingManager.FinishEndingSubject.Subscribe( _ =>{
+            currentGameMode = E_GameMode.TYPING_RESULT;
             resultManager.StartResult();
         });
 
 
         //リザルトの終了待ち
-        resultManager.FinishResultSubject.Subscribe(()=>{
+        resultManager.FinishResultSubject.Subscribe( _ =>{
             SceneLoadAlertSubject.OnNext(E_SceneName.TitleScene);
         });
     }
