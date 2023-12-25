@@ -10,7 +10,7 @@ public class Questioner : I_SpelCheckable{
      private bool isInputActive;
 
      private int questionCount;
-     private const int maxQuestionCount = 3;
+     private const int maxQuestionCount = 1;
      private int spellCount;
 
      private QuestionSet currentQuestionSet;

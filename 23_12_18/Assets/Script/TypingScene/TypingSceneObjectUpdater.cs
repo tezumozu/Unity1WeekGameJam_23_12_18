@@ -13,6 +13,8 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
     private EndingManager endingManager;
     private ResultManager resultManager;
 
+    ResultInputAction resultInputAction;
+
     private KeyTypeGetter keyTypeGetter;
     private AnswerEffectManager answerEffectManager;
     private Timer timer;
@@ -28,11 +30,15 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
 
         bool loadAcynk = false;
 
+        GameLoopManager loopManager = null;
+
         //メインスレッドで実行
         context.Post( _ => {
 
             timer = GameObject.Find("Timer").GetComponent<Timer>();
             answerEffectManager = GameObject.Find("AnswerEffectManager").GetComponent<AnswerEffectManager>();
+            resultInputAction = GameObject.Find("IA_Result").GetComponent<ResultInputAction>();
+            loopManager = GameObject.Find("GameLoopManager").GetComponent<GameLoopManager>();
 
             loadAcynk = true;
 
@@ -54,24 +60,25 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
 
         var scoerManager = new ScoerManager();
 
+        loopManager.OnInitialize(gameManager);
 
         //各マネージャの初期化
         gameManager.InitObject( opningManager , questioner , endingManager , resultManager);
 
         opningManager.InitObject();
-        resultManager.InitObject(scoerManager);
+        resultManager.InitObject(scoerManager,resultInputAction);
         endingManager.InitObject();
         questioner.InitObject(answerEffectManager,keyTypeGetter,scoerManager,timer);
 
         keyTypeGetter.InitObject();
         answerEffectManager.InitObject();
         scoerManager.InitObject();
+        resultInputAction.InitObject(gameManager);
 
 
         //シーンロード時にローディング画面を表示
         gameManager.ObserveSceneLoadAlert( _ => {
             //ロード画面表示
-            Debug.Log("Now Loading");
         });
         
     }

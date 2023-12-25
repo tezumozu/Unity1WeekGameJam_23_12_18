@@ -14,7 +14,7 @@ public class SceneLoader {
 
         asyncLoad.allowSceneActivation = false;
 
-        while(!asyncLoad.isDone){
+        while(asyncLoad.progress < 0.9f){
             yield return null;
         }
 

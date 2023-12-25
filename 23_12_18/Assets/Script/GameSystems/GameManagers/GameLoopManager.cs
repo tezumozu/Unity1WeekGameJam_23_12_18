@@ -19,9 +19,7 @@ public class GameLoopManager : MonoBehaviour {
     [Inject] 
     I_SceneObjectUpdatable UpdateManager;
 
-    //DI
-    [Inject] 
-    void OnInitialize(I_SceneLoadAlertable gameManager){
+    public void OnInitialize(I_SceneLoadAlertable gameManager){
         //シーン切り替えを監視
         gameManager.ObserveSceneLoadAlert(activeIsHaveToLoading);
     }
@@ -29,6 +27,7 @@ public class GameLoopManager : MonoBehaviour {
 
     //各シーンごとの初期化
     void Start(){
+        Application.targetFrameRate = 30;
         sceneLoader = new SceneLoader();
         currentState = E_LoopState.Init;
 
@@ -59,7 +58,6 @@ public class GameLoopManager : MonoBehaviour {
 
             //Update処理
             case E_LoopState.Update :
-
                 //オブジェクトをUpdate
                 UpdateManager.UpdateObject();
 
@@ -84,7 +82,6 @@ public class GameLoopManager : MonoBehaviour {
             //Loading時（シーン切り替え時）の処理
             case E_LoopState.Loading :
                 //基本待機　何かあれば
-
                 break;
         }
     }

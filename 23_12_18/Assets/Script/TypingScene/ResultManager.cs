@@ -13,8 +13,12 @@ public class ResultManager{
         FinishResultSubject = new Subject<Unit>();
     }
 
-    public void InitObject(ScoerManager scoerManager){
+    public void InitObject( ScoerManager scoerManager , ResultInputAction resultInputAction ){
         this.scoerManager = scoerManager;
+
+        resultInputAction.ResultExitSubject.Subscribe(_=>{
+            FinishResultSubject.OnNext(Unit.Default);
+        });
     }
 
     public void StartResult(){

@@ -1,0 +1,46 @@
+{
+    "name": "IA_Typing_Result",
+    "maps": [
+        {
+            "name": "KeyAndMouse",
+            "id": "9f018da2-1230-4111-8b5d-d1dd52d9d5d6",
+            "actions": [
+                {
+                    "name": "ExitResult",
+                    "type": "Button",
+                    "id": "8f75e7cf-a560-40a3-9caf-e7d396879be3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bb82fdfb-8b28-429f-8a5a-f3058da96a1e",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "KeyAndMouse",
+                    "action": "ExitResult",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "KeyAndMouse",
+            "bindingGroup": "KeyAndMouse",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
