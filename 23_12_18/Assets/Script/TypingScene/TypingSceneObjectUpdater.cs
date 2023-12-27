@@ -7,6 +7,7 @@ using UnityEngine;
 public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
     
     private TypingSceneGameManager gameManager;
+    private GameObject loadingSlider;
 
     private Questioner questioner;
     private OpningManager opningManager;
@@ -25,8 +26,10 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
         context = SynchronizationContext.Current;
     }
 
-    public override void InitObject(){//ローディング画面のためにマルチスレッドで実行される
+    public override void InitObject(GameObject loadingSlider){//ローディング画面のためにマルチスレッドで実行される
+
         QuestionSet.SetSynchronizationContext(context);
+        this.loadingSlider = loadingSlider;
 
         bool loadAcynk = false;
 
@@ -34,7 +37,6 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
 
         //メインスレッドで実行
         context.Post( _ => {
-
             timer = GameObject.Find("Timer").GetComponent<Timer>();
             answerEffectManager = GameObject.Find("AnswerEffectManager").GetComponent<AnswerEffectManager>();
             resultInputAction = GameObject.Find("IA_Result").GetComponent<ResultInputAction>();
@@ -79,6 +81,7 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
         //シーンロード時にローディング画面を表示
         gameManager.ObserveSceneLoadAlert( _ => {
             //ロード画面表示
+            loadingSlider.SetActive(true);
         });
         
     }
@@ -104,8 +107,6 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
 
     //ゲームを開始する
     public override void GameStart(){
-        //ロード画面非表示にする
-
         //オープニング開始
         opningManager.StartOpening();
     }

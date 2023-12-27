@@ -28,12 +28,14 @@ public class GameLoopManager : MonoBehaviour {
     //各シーンごとの初期化
     void Start(){
         Application.targetFrameRate = 30;
-        sceneLoader = new SceneLoader();
+        var loadingSlider = GameObject.Find("LoadingSlider");
+        loadingSlider.SetActive(false);
+        sceneLoader = new SceneLoader(loadingSlider);
         currentState = E_LoopState.Init;
 
         //初期化処理を実行
         initAsync = UniTask.RunOnThreadPool(()=>{
-            UpdateManager.InitObject();
+            UpdateManager.InitObject(loadingSlider);
         });
     }
 
@@ -63,6 +65,7 @@ public class GameLoopManager : MonoBehaviour {
 
                 //シーンロードが必要ならば
                 if(isHaveToLoading){
+                    
                     currentState = E_LoopState.Loading;
 
                     //不要なオブジェクトを開放する　(C#側)

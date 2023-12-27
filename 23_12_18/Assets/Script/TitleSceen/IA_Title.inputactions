@@ -1,0 +1,51 @@
+{
+    "name": "IA_Title",
+    "maps": [
+        {
+            "name": "KeyAndMouse",
+            "id": "359a4afa-3377-4238-a330-9745e8324905",
+            "actions": [
+                {
+                    "name": "StartGame",
+                    "type": "Button",
+                    "id": "6d41bb5d-3d4a-4d0d-8eba-a36a66800276",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "aecb847e-0728-46ec-8a64-8295fa499827",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "KeyAndMouse",
+                    "action": "StartGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "KeyAndMouse",
+            "bindingGroup": "KeyAndMouse",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

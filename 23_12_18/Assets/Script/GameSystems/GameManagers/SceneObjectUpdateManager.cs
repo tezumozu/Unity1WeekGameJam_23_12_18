@@ -9,7 +9,7 @@ public abstract class SceneObjectUpdateManager : I_SceneObjectUpdatable{
     [Inject] protected I_InputUpdatable inputManager;
 
     //メイン外で処理できる初期化処理
-    public abstract void InitObject();
+    public abstract void InitObject(GameObject loadingSlider);
 
     public abstract void UpdateObject();
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface I_SceneObjectUpdatable {
     
-    public void InitObject();
+    public void InitObject(GameObject loadingSlider);
 
     public void UpdateObject();
 
