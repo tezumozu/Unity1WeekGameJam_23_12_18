@@ -34,11 +34,13 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
         bool loadAcynk = false;
 
         GameLoopManager loopManager = null;
+        QuestionEffectManager questionEffectManager = null;
 
         //メインスレッドで実行
         context.Post( _ => {
             timer = GameObject.Find("Timer").GetComponent<Timer>();
             answerEffectManager = GameObject.Find("AnswerEffectManager").GetComponent<AnswerEffectManager>();
+            questionEffectManager = GameObject.Find("QuestionEffectManager").GetComponent<QuestionEffectManager>();
             resultInputAction = GameObject.Find("IA_Result").GetComponent<ResultInputAction>();
             loopManager = GameObject.Find("GameLoopManager").GetComponent<GameLoopManager>();
 
@@ -70,7 +72,7 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
         opningManager.InitObject();
         resultManager.InitObject(scoerManager,resultInputAction);
         endingManager.InitObject();
-        questioner.InitObject(answerEffectManager,keyTypeGetter,scoerManager,timer);
+        questioner.InitObject(questionEffectManager,answerEffectManager,keyTypeGetter,scoerManager,timer);
 
         keyTypeGetter.InitObject();
         answerEffectManager.InitObject();

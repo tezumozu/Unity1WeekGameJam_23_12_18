@@ -18,6 +18,7 @@ public class Questioner : I_SpelCheckable{
 
      private Timer timer;
      private AnswerEffectManager answerEffectManager;
+     private QuestionEffectManager questionEffectManager;
      private ScoerManager scoerManager;
 
      public Subject<Unit> AllFinishQuestionSubject;
@@ -32,11 +33,12 @@ public class Questioner : I_SpelCheckable{
           AllFinishQuestionSubject = new Subject<Unit>();
      }
 
-     public void InitObject(AnswerEffectManager answerEffectManager, KeyTypeGetter keyTypeGetter , ScoerManager scoerManager ,Timer timer){
+     public void InitObject(QuestionEffectManager questionEffectManager,AnswerEffectManager answerEffectManager, KeyTypeGetter keyTypeGetter , ScoerManager scoerManager ,Timer timer){
           questionCount = 0;
           spellCount = 0;
           isInputActive = false;
 
+          this.questionEffectManager = questionEffectManager;
           this.answerEffectManager = answerEffectManager;
           this.scoerManager = scoerManager;
           this.timer = timer;
@@ -45,6 +47,10 @@ public class Questioner : I_SpelCheckable{
           //時間切れ時の処理
           this.timer.TimeLimitSubject.Subscribe(time => {
                isInputActive = false;
+
+               //問題を非表示
+               questionEffectManager.NotActiveQuestion();
+
                //評価を表示する
                Answer answer = getResult( time , false );
                this.scoerManager.UpdateScoer(answer);
@@ -79,10 +85,10 @@ public class Questioner : I_SpelCheckable{
           currentQuestionState = E_QuestionState.FIRST;
           currentQuestionSet = new StartQuestionSet();
 
+          //問題を表示
+          questionEffectManager.DisplayQuestion(currentQuestionSet.Questions[currentQuestionState]);
+          //タイマー開始
           timer.StartTimer(currentQuestionSet.Questions[currentQuestionState].Time);
-
-          Debug.Log("Question : " + currentQuestionSet.Questions[currentQuestionState].QuestionText);
-          Debug.Log(currentQuestionSet.Questions[currentQuestionState].Spell);
      }
 
 
@@ -95,6 +101,8 @@ public class Questioner : I_SpelCheckable{
           if(c == currentQuestion.Spell[spellCount]){
                spellCount++;
                //UIの更新
+               //問題を非表示
+               questionEffectManager.UpdateQuestion(spellCount);
 
                string input = "";
                for(int i =  0; i < spellCount; i++){
@@ -107,6 +115,9 @@ public class Questioner : I_SpelCheckable{
                if (spellCount == spellLength){
                     timer.StopTimer();
                     isInputActive = false;
+
+                    //問題を非表示
+                    questionEffectManager.NotActiveQuestion();
 
                     //評価を表示する
                     Answer answer = getResult( timer.GetCurrentTime , true );
@@ -148,8 +159,10 @@ public class Questioner : I_SpelCheckable{
                }
           }
 
-          Debug.Log("Question : " + currentQuestionSet.Questions[currentQuestionState].QuestionText);
-          Debug.Log(currentQuestionSet.Questions[currentQuestionState].Spell);
+          currentQuestion = currentQuestionSet.Questions[currentQuestionState];
+
+          //次の問題を表示
+          questionEffectManager.DisplayQuestion(currentQuestion);
 
           isInputActive = true;
           timer.StartTimer(currentQuestionSet.Questions[currentQuestionState].Time);

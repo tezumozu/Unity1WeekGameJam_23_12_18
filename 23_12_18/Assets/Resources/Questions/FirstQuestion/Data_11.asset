@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QuestionText: "\u304B\u306A\u3057\u304B\u3063\u305F"
   Spell: kanasikatta
-  Time: 0
+  Time: 5
   VoiceFileName: 10
