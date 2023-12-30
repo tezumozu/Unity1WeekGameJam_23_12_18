@@ -10,7 +10,7 @@ public class Questioner : I_SpelCheckable{
      private bool isInputActive;
 
      private int questionCount;
-     private const int maxQuestionCount = 8;
+     private const int maxQuestionCount = 1;
      private int spellCount;
 
      private QuestionSet currentQuestionSet;
@@ -19,7 +19,7 @@ public class Questioner : I_SpelCheckable{
      private Timer timer;
      private AnswerEffectManager answerEffectManager;
      private QuestionEffectManager questionEffectManager;
-     private ScoerManager scoerManager;
+     private ScoreManager ScoreManager;
 
      public Subject<Unit> AllFinishQuestionSubject;
 
@@ -33,14 +33,14 @@ public class Questioner : I_SpelCheckable{
           AllFinishQuestionSubject = new Subject<Unit>();
      }
 
-     public void InitObject(QuestionEffectManager questionEffectManager,AnswerEffectManager answerEffectManager, KeyTypeGetter keyTypeGetter , ScoerManager scoerManager ,Timer timer){
+     public void InitObject(QuestionEffectManager questionEffectManager,AnswerEffectManager answerEffectManager, KeyTypeGetter keyTypeGetter , ScoreManager ScoreManager ,Timer timer){
           questionCount = 0;
           spellCount = 0;
           isInputActive = false;
 
           this.questionEffectManager = questionEffectManager;
           this.answerEffectManager = answerEffectManager;
-          this.scoerManager = scoerManager;
+          this.ScoreManager = ScoreManager;
           this.timer = timer;
 
           //制限時間を監視
@@ -53,7 +53,7 @@ public class Questioner : I_SpelCheckable{
 
                //評価を表示する
                Answer answer = getResult( time , false );
-               this.scoerManager.UpdateScoer(answer);
+               this.ScoreManager.UpdateScore(answer);
                this.answerEffectManager.displayEvaluation( answer );
 
           });
@@ -121,7 +121,7 @@ public class Questioner : I_SpelCheckable{
 
                     //評価を表示する
                     Answer answer = getResult( timer.GetCurrentTime , true );
-                    this.scoerManager.UpdateScoer(answer);
+                    this.ScoreManager.UpdateScore(answer);
                     this.answerEffectManager.displayEvaluation( answer );
                }
           }

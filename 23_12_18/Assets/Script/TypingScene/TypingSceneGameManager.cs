@@ -7,12 +7,12 @@ using UniRx;
 public class TypingSceneGameManager : GameManager{
     public E_GameMode currentGameMode {get; private set;}
 
-    public void InitObject(OpningManager opningManager , Questioner questioner , EndingManager endingManager , ResultManager resultManager){
+    public void InitObject(OpeningManager openingManager , Questioner questioner , EndingManager endingManager , ResultManager resultManager){
         currentGameMode = E_GameMode.TYPING_OPNING;
 
 
         //オープニングの終了待ち
-        opningManager.FinishOpningSubject.Subscribe( _ => {
+        openingManager.FinishOpningSubject.Subscribe( _ => {
             currentGameMode = E_GameMode.TYPING_QUESTION;
             questioner.StartQuestion();
         });

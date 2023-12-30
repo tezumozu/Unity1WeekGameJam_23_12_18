@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoerDataManager : MonoBehaviour{
+public class ScoreDataManager : MonoBehaviour{
 
     [SerializeField]
-    private List<ScoerData> list;
+    private List<ScoreData> list;
 
-    private static List<ScoerData> staticlist;
+    private static List<ScoreData> staticlist;
 
     public static Dictionary<E_Evaluation,int> GetDic{
         get{
             var dic = new Dictionary<E_Evaluation,int>();
 
             foreach (var data in staticlist){
-                dic.Add(data.Evaluation,data.Scoer);
+                dic.Add(data.Evaluation,data.Score);
             }
 
             return dic;
@@ -27,10 +27,10 @@ public class ScoerDataManager : MonoBehaviour{
 }
 
 [System.Serializable]
-public class ScoerData{
+public class ScoreData{
 
     [SerializeField]
-    public int Scoer;
+    public int Score;
 
     [SerializeField]  
     public E_Evaluation Evaluation;

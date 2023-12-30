@@ -49,7 +49,9 @@ public class AnswerEffectManager : MonoBehaviour{
         }
         
         answerObject.SetActive(false);
+        evaluationImage.gameObject.SetActive(false);
         FinishDisplaySubject.OnNext(Unit.Default);
+
     }
 
     public void displayEvaluation(Answer answer){
@@ -66,11 +68,11 @@ public class AnswerEffectManager : MonoBehaviour{
 
         //テキスト入力
         if(this.answer.IsClear){
-            answerText.text = this.answer.Question.QuestionText;
+            answerText.text = this.answer.Question.QuestionText + "！";
         }else{
             answerText.text = "？？？";
         }
-
+        evaluationImage.gameObject.SetActive(true);
         StartCoroutine(displayEffects()); 
     }
 

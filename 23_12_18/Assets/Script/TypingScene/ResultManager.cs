@@ -4,24 +4,32 @@ using UnityEngine;
 
 using UniRx;
 
-public class ResultManager{
+public class ResultManager : MonoBehaviour {
 
-    public Subject<Unit> FinishResultSubject;
-    private ScoerManager scoerManager;
+    public Subject<Unit> FinishResultSubject = new Subject<Unit>();
+    private ScoreManager ScoreManager;
 
-    public ResultManager () {
-        FinishResultSubject = new Subject<Unit>();
-    }
+    [SerializeField] 
+    private GameObject ResutUI;
 
-    public void InitObject( ScoerManager scoerManager , ResultInputAction resultInputAction ){
-        this.scoerManager = scoerManager;
+    public void InitObject( ScoreManager scoreManager , ResultInputAction resultInputAction ){
+        if(scoreManager == null){
+            Debug.Log("Scoer");
+        }
+
+        this.ScoreManager = scoreManager;
 
         resultInputAction.ResultExitSubject.Subscribe(_=>{
-            FinishResultSubject.OnNext(Unit.Default);
+            if(!this.ScoreManager.IsSkip){
+                this.ScoreManager.SkipAnim();
+            }else{
+                FinishResultSubject.OnNext(Unit.Default);
+            }
         });
     }
 
     public void StartResult(){
-        scoerManager.DisplayScoer();
+        ResutUI.SetActive(true);
+        ScoreManager.DisplayScore();
     }
 }

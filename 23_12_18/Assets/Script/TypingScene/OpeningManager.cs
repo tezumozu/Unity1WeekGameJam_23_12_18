@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 using UniRx;
 
-public class EndingManager : MonoBehaviour {
-    public Subject<Unit> FinishEndingSubject = new Subject<Unit>();
+public class OpeningManager : MonoBehaviour {
+    public Subject<Unit> FinishOpningSubject = new Subject<Unit>();
 
     //仮のディレイ用
     float currentTime;
@@ -19,10 +19,17 @@ public class EndingManager : MonoBehaviour {
     [SerializeField] 
     private GameObject MetanLines;
 
+    [SerializeField] 
+    private Text ZundaLinesText;
+
+    [SerializeField] 
+    private GameObject ZundaLines;
+
+
     public void InitObject(){
     }
 
-    private IEnumerator DisplayEnding(){
+    private IEnumerator DisplayOpening(){
 
 
         while(currentTime < time){
@@ -31,7 +38,7 @@ public class EndingManager : MonoBehaviour {
             yield return null;
         }
 
-        MetanLinesText.text = "第一回ずんだ小学校";
+        MetanLinesText.text = "ずんだもんの皆さん";
 
         currentTime = 0;
         while(currentTime < time){
@@ -39,7 +46,7 @@ public class EndingManager : MonoBehaviour {
             yield return null;
         }
 
-        MetanLinesText.text = "卒業式を終了します";
+        MetanLinesText.text = "おねがいします";
         
         currentTime = 0;
         while(currentTime < time){
@@ -47,14 +54,26 @@ public class EndingManager : MonoBehaviour {
             yield return null;
         }
         MetanLines.SetActive(false);
+        ZundaLines.SetActive(true);
 
-        FinishEndingSubject.OnNext(Unit.Default);
-    }
-
-    public void StartEnding(){
+        ZundaLinesText.text = "はいなのだ！";
+        
         currentTime = 0;
-        MetanLinesText.text = "これにて";
-        MetanLines.SetActive(true);
-        StartCoroutine(DisplayEnding());
+        while(currentTime < time){
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+        ZundaLines.SetActive(false);
+
+
+        FinishOpningSubject.OnNext(Unit.Default);
     }
+
+    public void StartOpening(){
+        currentTime = 0;
+        MetanLinesText.text = "おくることば";
+        MetanLines.SetActive(true);
+        StartCoroutine(DisplayOpening());
+    }
+
 }

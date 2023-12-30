@@ -10,7 +10,7 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
     private GameObject loadingSlider;
 
     private Questioner questioner;
-    private OpningManager opningManager;
+    private OpeningManager openingManager;
     private EndingManager endingManager;
     private ResultManager resultManager;
 
@@ -35,6 +35,7 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
 
         GameLoopManager loopManager = null;
         QuestionEffectManager questionEffectManager = null;
+        ScoreManager ScoreManager = null;
 
         //メインスレッドで実行
         context.Post( _ => {
@@ -43,7 +44,10 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
             questionEffectManager = GameObject.Find("QuestionEffectManager").GetComponent<QuestionEffectManager>();
             resultInputAction = GameObject.Find("IA_Result").GetComponent<ResultInputAction>();
             loopManager = GameObject.Find("GameLoopManager").GetComponent<GameLoopManager>();
-
+            openingManager = GameObject.Find("OpeningManager").GetComponent<OpeningManager>();
+            endingManager = GameObject.Find("EndingManager").GetComponent<EndingManager>();
+            resultManager = GameObject.Find("ResultManager").GetComponent<ResultManager>();
+            ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
             loadAcynk = true;
 
         } , null );
@@ -53,30 +57,28 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
 
         }
 
+        if(resultManager == null){
+            Debug.Log("Result");
+        }
+
         gameManager = new TypingSceneGameManager();
-        
-        opningManager = new OpningManager();
-        resultManager = new ResultManager();
-        endingManager = new EndingManager();
         questioner = new Questioner();
 
         keyTypeGetter = new KeyTypeGetter();
 
-        var scoerManager = new ScoerManager();
-
         loopManager.OnInitialize(gameManager);
 
         //各マネージャの初期化
-        gameManager.InitObject( opningManager , questioner , endingManager , resultManager);
+        gameManager.InitObject( openingManager , questioner , endingManager , resultManager);
 
-        opningManager.InitObject();
-        resultManager.InitObject(scoerManager,resultInputAction);
+        openingManager.InitObject();
+        resultManager.InitObject(ScoreManager,resultInputAction);
         endingManager.InitObject();
-        questioner.InitObject(questionEffectManager,answerEffectManager,keyTypeGetter,scoerManager,timer);
+        questioner.InitObject(questionEffectManager,answerEffectManager,keyTypeGetter,ScoreManager,timer);
 
         keyTypeGetter.InitObject();
         answerEffectManager.InitObject();
-        scoerManager.InitObject();
+        ScoreManager.InitObject();
         resultInputAction.InitObject(gameManager);
 
 
@@ -110,6 +112,6 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
     //ゲームを開始する
     public override void GameStart(){
         //オープニング開始
-        opningManager.StartOpening();
+        openingManager.StartOpening();
     }
 }
