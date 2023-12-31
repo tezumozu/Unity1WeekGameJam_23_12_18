@@ -33,5 +33,11 @@ public enum E_Voice {
     Latter_12,
     Latter_13,
     Latter_14,
-    Latter_15
+    Latter_15,
+
+    Start_First,
+    Start_Latter,
+    
+    End_First,
+    End_Latter
 }

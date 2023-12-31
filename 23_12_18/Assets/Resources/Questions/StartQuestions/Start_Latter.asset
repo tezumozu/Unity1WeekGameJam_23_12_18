@@ -15,4 +15,4 @@ MonoBehaviour:
   QuestionText: "\u3054\u5352\u696D\u304A\u3081\u3067\u3068\u3046\u3054\u3056\u3044\u307E\u3059"
   Spell: gosotugyoomedetougozaimasu
   Time: 10
-  FileName: 0
+  VoiceFileName: 31

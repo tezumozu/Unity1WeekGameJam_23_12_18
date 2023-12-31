@@ -7,11 +7,22 @@ using UnityEngine.UI;
 using UniRx;
 
 public class AnswerEffectManager : MonoBehaviour{
-    public Subject<Unit> FinishDisplaySubject;
 
     //仮のディレイ用
     float currentTime;
-    float time;
+    float time = 1.0f;
+
+    public Subject<Unit> FinishDisplaySubject;
+
+    [SerializeField]
+    private AudioClip Correct;
+
+    [SerializeField]
+    private AudioClip Incorrect;
+
+    private AudioSource audioSource;
+
+
 
     [SerializeField]
     private List<EvaluationSprite> spriteList;
@@ -25,27 +36,42 @@ public class AnswerEffectManager : MonoBehaviour{
     [SerializeField] 
     private GameObject answerObject;
 
-    AudioSource audioSource;
-
     Answer answer;
 
     private void Start(){
         FinishDisplaySubject = new Subject<Unit>();
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     public void InitObject (){
-        currentTime = 0;
-        time = 5.0f;
     }
 
     private IEnumerator displayEffects(){
     
         answerObject.SetActive(true);
 
+        if(this.answer.IsClear){
+            audioSource.Play();
+        }
+
         //演出の終了を確認
-        while (time > currentTime){
+        while (audioSource.isPlaying){
             yield return null;
+        }
+
+        if(this.answer.IsClear){
+            audioSource.clip = Correct;
+        }else{
+            audioSource.clip = Incorrect;
+        }
+
+        audioSource.Play();
+        evaluationImage.gameObject.SetActive(true);
+        currentTime = 0;
+        //演出の終了を確認
+        while (audioSource.isPlaying || time > currentTime){
             currentTime += Time.deltaTime;
+            yield return null;
         }
         
         answerObject.SetActive(false);
@@ -55,14 +81,20 @@ public class AnswerEffectManager : MonoBehaviour{
     }
 
     public void displayEvaluation(Answer answer){
-        currentTime = 0;
-        time = 5.0f;
         this.answer = answer;
+
+        //音声読み込み
+        var clip = Resources.Load<AudioClip> ("Wav/Voice/QuestionVoice/" + answer.Question.VoiceFileName.ToString());
+        if(clip == null){
+            Debug.Log("NonCrip");
+        }else{
+            audioSource.clip = clip;
+        }
 
         //評価入力
         foreach(var data in spriteList){
             if( data.Evaluation == this.answer.Evaluation ) {
-                 evaluationImage.sprite = data.Sprite;
+                evaluationImage.sprite = data.Sprite;
             }
         }
 
@@ -72,7 +104,7 @@ public class AnswerEffectManager : MonoBehaviour{
         }else{
             answerText.text = "？？？";
         }
-        evaluationImage.gameObject.SetActive(true);
+
         StartCoroutine(displayEffects()); 
     }
 

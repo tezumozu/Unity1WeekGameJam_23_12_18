@@ -16,7 +16,6 @@ public class ScoreDataManager : MonoBehaviour{
             foreach (var data in staticlist){
                 dic.Add(data.Evaluation,data.Score);
             }
-
             return dic;
         }
     }

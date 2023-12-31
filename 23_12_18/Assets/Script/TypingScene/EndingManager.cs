@@ -10,8 +10,12 @@ public class EndingManager : MonoBehaviour {
 
     //仮のディレイ用
     float currentTime;
-    float time = 3.0f;
+    float time = 2.0f;
 
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private List<AudioClip> VoioceList;
 
     [SerializeField] 
     private Text MetanLinesText;
@@ -19,31 +23,41 @@ public class EndingManager : MonoBehaviour {
     [SerializeField] 
     private GameObject MetanLines;
 
+    private void Start(){
+        audioSource = gameObject.GetComponent<AudioSource>();
+    }
+
     public void InitObject(){
     }
 
     private IEnumerator DisplayEnding(){
 
+        audioSource.clip = VoioceList[0];
+        audioSource.Play();
 
-        while(currentTime < time){
+        while(audioSource.isPlaying || currentTime < time){
             currentTime += Time.deltaTime;
 
             yield return null;
         }
+
+        audioSource.clip = VoioceList[1];
+        audioSource.Play();
 
         MetanLinesText.text = "第一回ずんだ小学校";
 
         currentTime = 0;
-        while(currentTime < time){
+        while(audioSource.isPlaying || currentTime < time){
             currentTime += Time.deltaTime;
             yield return null;
         }
 
+        audioSource.clip = VoioceList[2];
+        audioSource.Play();
+
         MetanLinesText.text = "卒業式を終了します";
         
-        currentTime = 0;
-        while(currentTime < time){
-            currentTime += Time.deltaTime;
+        while(audioSource.isPlaying){
             yield return null;
         }
         MetanLines.SetActive(false);

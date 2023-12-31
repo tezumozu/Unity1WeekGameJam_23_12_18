@@ -10,8 +10,12 @@ public class OpeningManager : MonoBehaviour {
 
     //仮のディレイ用
     float currentTime;
-    float time = 3.0f;
+    float time = 2.0f;
 
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private List<AudioClip> VoioceList;
 
     [SerializeField] 
     private Text MetanLinesText;
@@ -25,46 +29,63 @@ public class OpeningManager : MonoBehaviour {
     [SerializeField] 
     private GameObject ZundaLines;
 
+    private void Start(){
+        audioSource = gameObject.GetComponent<AudioSource>();
+    }
 
     public void InitObject(){
+        currentTime = 0.0f;
     }
 
     private IEnumerator DisplayOpening(){
+        audioSource.clip = VoioceList[0];
+        audioSource.Play();
 
-
-        while(currentTime < time){
+        while(audioSource.isPlaying || time > currentTime){
             currentTime += Time.deltaTime;
-
             yield return null;
         }
 
+
+        audioSource.clip = VoioceList[1];
+        audioSource.Play();
         MetanLinesText.text = "ずんだもんの皆さん";
 
         currentTime = 0;
-        while(currentTime < time){
+
+        while(audioSource.isPlaying || time > currentTime ){
             currentTime += Time.deltaTime;
             yield return null;
         }
 
+
+        audioSource.clip = VoioceList[2];
+        audioSource.Play();
         MetanLinesText.text = "おねがいします";
-        
+
         currentTime = 0;
-        while(currentTime < time){
+
+        while(audioSource.isPlaying || time > currentTime){
             currentTime += Time.deltaTime;
             yield return null;
         }
+
+
+
         MetanLines.SetActive(false);
         ZundaLines.SetActive(true);
 
+        audioSource.clip = VoioceList[3];
+        audioSource.Play();
         ZundaLinesText.text = "はいなのだ！";
-        
+
         currentTime = 0;
-        while(currentTime < time){
+        
+        while(audioSource.isPlaying){
             currentTime += Time.deltaTime;
             yield return null;
         }
         ZundaLines.SetActive(false);
-
 
         FinishOpningSubject.OnNext(Unit.Default);
     }

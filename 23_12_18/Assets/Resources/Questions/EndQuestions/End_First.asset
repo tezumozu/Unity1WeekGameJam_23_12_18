@@ -15,4 +15,4 @@ MonoBehaviour:
   QuestionText: "\u5352\u696D\u751F\u306E\u7686\u3055\u3093"
   Spell: sotugyouseinominasann
   Time: 10
-  FileName: 0
+  VoiceFileName: 32
