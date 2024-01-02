@@ -109,8 +109,6 @@ public class Questioner : I_SpelCheckable{
                    input += currentQuestion.Spell[i];
                }
 
-               Debug.Log(input);
-
                //全文入力されたら
                if (spellCount == spellLength){
                     timer.StopTimer();
@@ -170,7 +168,6 @@ public class Questioner : I_SpelCheckable{
 
 
      private E_Evaluation checkEvaluation(float limitTime, float clearTime){
-          Debug.Log( clearTime + " : " + (clearTime / limitTime) );
           if(clearTime / limitTime < 0.5f){
                return E_Evaluation.GREAT;
 
