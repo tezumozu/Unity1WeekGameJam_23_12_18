@@ -5,40 +5,24 @@ using UnityEngine;
 using System.Threading;
 
 public class TitleSceneObjectUpdater : SceneObjectUpdateManager{
-
-    private SynchronizationContext context;
+    
     private TitleSceneGameManager gameManager;
     private GameObject loadingSlider;
 
 
     public TitleSceneObjectUpdater(){
-        context = SynchronizationContext.Current;
     }
 
 
     public override void InitObject(GameObject loadingSlider){
-        QuestionSet.SetSynchronizationContext(context);
 
         this.loadingSlider = loadingSlider;
 
-        bool loadAcynk = false;
-
         GameLoopManager loopManager = null;
-        TitleInputAction titleInputAction = null;
+        TitleSceneInput titleInputAction = null;
 
-        //メインスレッドで実行
-        context.Post( _ => {
-            titleInputAction = GameObject.Find("IA_TitleInput").GetComponent<TitleInputAction>();
-            loopManager = GameObject.Find("GameLoopManager").GetComponent<GameLoopManager>();
-
-            loadAcynk = true;
-
-        } , null );
-
-        //ロード待ち
-        while(!loadAcynk){
-
-        }
+        titleInputAction = GameObject.Find("IA_TitleInput").GetComponent<TitleSceneInput>();
+        loopManager = GameObject.Find("GameLoopManager").GetComponent<GameLoopManager>();
 
         gameManager = new TitleSceneGameManager();
 

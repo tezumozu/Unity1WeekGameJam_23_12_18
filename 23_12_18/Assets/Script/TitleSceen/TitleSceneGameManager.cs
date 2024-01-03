@@ -5,7 +5,7 @@ using UnityEngine;
 using UniRx;
 
 public class TitleSceneGameManager : GameManager{
-    public void InitObject(TitleInputAction titleInputAction){
+    public void InitObject(TitleSceneInput titleInputAction){
         titleInputAction.StartGameSubject.Subscribe(_=>{
             SceneLoadAlertSubject.OnNext(E_SceneName.TypingScene);
         });

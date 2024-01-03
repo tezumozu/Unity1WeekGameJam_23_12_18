@@ -20,46 +20,29 @@ public class TypingSceneObjectUpdater : SceneObjectUpdateManager{
     private AnswerEffectManager answerEffectManager;
     private Timer timer;
 
-    private SynchronizationContext context;
 
     public TypingSceneObjectUpdater (){
-        context = SynchronizationContext.Current;
+
     }
 
     public override void InitObject(GameObject loadingSlider){//ローディング画面のためにマルチスレッドで実行される
 
-        QuestionSet.SetSynchronizationContext(context);
         this.loadingSlider = loadingSlider;
-
-        bool loadAcynk = false;
 
         GameLoopManager loopManager = null;
         QuestionEffectManager questionEffectManager = null;
         ScoreManager ScoreManager = null;
 
-        //メインスレッドで実行
-        context.Post( _ => {
-            timer = GameObject.Find("Timer").GetComponent<Timer>();
-            answerEffectManager = GameObject.Find("AnswerEffectManager").GetComponent<AnswerEffectManager>();
-            questionEffectManager = GameObject.Find("QuestionEffectManager").GetComponent<QuestionEffectManager>();
-            resultInputAction = GameObject.Find("IA_Result").GetComponent<ResultInputAction>();
-            loopManager = GameObject.Find("GameLoopManager").GetComponent<GameLoopManager>();
-            openingManager = GameObject.Find("OpeningManager").GetComponent<OpeningManager>();
-            endingManager = GameObject.Find("EndingManager").GetComponent<EndingManager>();
-            resultManager = GameObject.Find("ResultManager").GetComponent<ResultManager>();
-            ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
-            loadAcynk = true;
+        timer = GameObject.Find("Timer").GetComponent<Timer>();
+        answerEffectManager = GameObject.Find("AnswerEffectManager").GetComponent<AnswerEffectManager>();
+        questionEffectManager = GameObject.Find("QuestionEffectManager").GetComponent<QuestionEffectManager>();
+        resultInputAction = GameObject.Find("IA_Result").GetComponent<ResultInputAction>();
+        loopManager = GameObject.Find("GameLoopManager").GetComponent<GameLoopManager>();
+        openingManager = GameObject.Find("OpeningManager").GetComponent<OpeningManager>();
+        endingManager = GameObject.Find("EndingManager").GetComponent<EndingManager>();
+        resultManager = GameObject.Find("ResultManager").GetComponent<ResultManager>();
+        ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
 
-        } , null );
-
-        //ロード待ち
-        while(!loadAcynk){
-
-        }
-
-        if(resultManager == null){
-            Debug.Log("Result");
-        }
 
         gameManager = new TypingSceneGameManager();
         questioner = new Questioner();

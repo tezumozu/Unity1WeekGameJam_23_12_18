@@ -13,8 +13,8 @@ public class ResultInputAction : MonoBehaviour{
         this.gameManager = gameManager;
     }
 
-    public void InputExit(InputAction.CallbackContext context){ 
-        if(!(context.phase == InputActionPhase.Performed)) return;
+    public void Update(){ 
+        if(!Input.GetKeyDown(KeyCode.Space)) return;
 
         if (gameManager.currentGameMode == E_GameMode.TYPING_RESULT){
             ResultExitSubject.OnNext(Unit.Default);

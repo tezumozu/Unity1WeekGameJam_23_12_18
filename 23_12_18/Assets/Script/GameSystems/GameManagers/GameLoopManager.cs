@@ -34,9 +34,7 @@ public class GameLoopManager : MonoBehaviour {
         currentState = E_LoopState.Init;
 
         //初期化処理を実行
-        initAsync = UniTask.RunOnThreadPool(()=>{
-            UpdateManager.InitObject(loadingSlider);
-        });
+        UpdateManager.InitObject(loadingSlider);
     }
 
 
@@ -47,12 +45,9 @@ public class GameLoopManager : MonoBehaviour {
             //初期化処理
             case E_LoopState.Init :
 
-                //初期化の終了を待つ
-                if(initAsync.GetAwaiter().IsCompleted){
                     //初期化が終了したら切り替え
                     currentState = E_LoopState.Update;
                     UpdateManager.GameStart();
-                }
 
                 break;
 
